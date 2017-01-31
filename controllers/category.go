@@ -1,8 +1,10 @@
 package controllers
 
 import (
+	"comic-go/models"
 	"fmt"
 	"log"
+	"time"
 
 	"github.com/astaxie/beego"
 	"gopkg.in/mgo.v2"
@@ -14,9 +16,10 @@ type CategoryController struct {
 }
 
 type Person struct {
-	ID    bson.ObjectId `bson:"_id,omitempty"`
-	Name  string
-	Phone string
+	ID        bson.ObjectId `bson:"_id,omitempty"`
+	Name      string
+	Phone     string
+	Timestamp time.Time
 }
 
 func (o *CategoryController) Get() {
@@ -27,19 +30,15 @@ func (o *CategoryController) Get() {
 	defer session.Close()
 	session.SetMode(mgo.Monotonic, true)
 
-	People := session.DB("test").C("people")
-
-	result := Person{}
-	err = People.Find(bson.M{}).One(&result)
+	Catalog := session.DB("sfacg").C("catalog")
+	result := models.Catalog{}
+	err = Catalog.Find(bson.M{}).One(&result)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	fmt.Println("Phone:", result)
-
 	o.Data["json"] = result
 	o.ServeJSON()
 
-	// result = Catalog{}
-	// println(result)
+	fmt.Println(result)
 }

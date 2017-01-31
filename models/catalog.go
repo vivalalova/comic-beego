@@ -8,12 +8,12 @@ import (
 
 type Catalog struct {
 	ID           bson.ObjectId `bson:"_id,omitempty"`
-	title        string
-	author       string
-	category     string
-	description  string
+	Title        string        `bson: "title"`
+	Author       string
+	Category     string
+	Description  string
 	URL          string
-	thumbnailURL string
+	ThumbnailURL string
 	_created_at  time.Time
 	_updated_at  time.Time
 }
