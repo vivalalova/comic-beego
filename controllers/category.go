@@ -1,8 +1,6 @@
 package controllers
 
 import (
-	"comic-go/models"
-	"fmt"
 	"log"
 	"time"
 
@@ -31,14 +29,13 @@ func (o *CategoryController) Get() {
 	session.SetMode(mgo.Monotonic, true)
 
 	Catalog := session.DB("sfacg").C("catalog")
-	result := models.Catalog{}
-	err = Catalog.Find(bson.M{}).One(&result)
+
+	var results []string
+	err = Catalog.Find(bson.M{}).Distinct("category", &results)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	o.Data["json"] = result
+	o.Data["json"] = results
 	o.ServeJSON()
-
-	fmt.Println(result)
 }

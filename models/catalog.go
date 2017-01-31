@@ -7,13 +7,13 @@ import (
 )
 
 type Catalog struct {
-	ID           bson.ObjectId `bson:"_id,omitempty"`
-	Title        string        `bson: "title"`
-	Author       string
-	Category     string
-	Description  string
-	URL          string
-	ThumbnailURL string
-	_created_at  time.Time
-	_updated_at  time.Time
+	ID           bson.ObjectId `bson:"_id" json:"id"`
+	Title        string        `bson:"title" json:"title"`
+	Author       string        `bson:"author" json:"author"`
+	Category     string        `bson:"category" json:"category"`
+	Description  string        `bson:"description" json:"description"`
+	URL          string        `bson:"URL" json:"url"`
+	ThumbnailURL string        `bson:"thumbnailURL" json:"thumbnailURL"`
+	CreatedAt    time.Time     `bson:"_created_at" json:"createdAt"`
+	UpdatedAt    time.Time     `bson:"_updated_at" json:"updatedAt"`
 }
