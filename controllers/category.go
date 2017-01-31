@@ -40,6 +40,6 @@ func (o *CategoryController) Get() {
 	o.Data["json"] = result
 	o.ServeJSON()
 
-	result = Catalog{}
-	println(result)
+	// result = Catalog{}
+	// println(result)
 }
