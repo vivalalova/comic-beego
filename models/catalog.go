@@ -25,17 +25,19 @@ var (
 )
 
 func (catalog Catalog) Shared() *mgo.Collection {
-	if session == nil {
-		var err error
-		session, err = mgo.Dial("localhost")
 
-		if err != nil {
-			panic(err)
+	var err error
+	session, err = mgo.Dial("localhost")
+
+	if err != nil {
+		if err.Error() == "EOF" {
+			session.Refresh()
 		}
-
-		session.SetMode(mgo.Monotonic, true)
-		collection = session.DB("sfacg").C("catalog")
+		panic(err)
 	}
+
+	session.SetMode(mgo.Monotonic, true)
+	collection = session.DB("sfacg").C("catalog")
 
 	return collection
 }

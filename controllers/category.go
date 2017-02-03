@@ -20,6 +20,7 @@ var (
 func (o *CategoryController) Get() {
 
 	err := Catalog.Find(bson.M{}).Distinct("category", &results)
+	// defer Catalog.Database.Session.Close()
 
 	if err != nil {
 		log.Fatal(err)
@@ -28,4 +29,5 @@ func (o *CategoryController) Get() {
 
 	o.Data["json"] = results
 	o.ServeJSON()
+
 }
