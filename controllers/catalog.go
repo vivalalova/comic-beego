@@ -4,6 +4,8 @@ import (
 	"comic-go/models"
 	"log"
 
+	"fmt"
+
 	"gopkg.in/mgo.v2/bson"
 )
 
@@ -11,33 +13,35 @@ type CatalogController struct {
 	BaseController
 }
 
-// type CatalogParams struct {
-// 	limit    int
-// 	skip     int
-// 	category string
-// 	title    string
-// }
+func (this *CatalogController) queries() bson.M {
+	category := this.GetString("category")
+	title := this.GetString("title")
 
-// func (this *string) toCatalogParams() CatalogParams {
-// 	return CatalogParams{}
-// }
+	queries := bson.M{}
+
+	if len(category) > 0 {
+		queries["category"] = category
+	}
+
+	if len(title) > 0 {
+		queries["title"] = title
+	}
+
+	return queries
+}
 
 func (this *CatalogController) Get() {
-
-	// category := this.GetString("category")
-	// title := this.GetString("title")
-	// fmt.Println(category)
-	// fmt.Println(title)
-
 	var results []models.Catalog
 
-	query := bson.M{}
-	// query["category"] = "辛巴达的冒险"
+	query := this.queries()
 
 	err := Catalog.Find(query).
-		Skip(this.skip()).
-		Limit(this.limit()).
+		Skip(this.parms().skip).
+		Limit(this.parms().limit).
+		Sort(this.parms().sort).
 		All(&results)
+
+	fmt.Println(this.parms().limit)
 
 	if err != nil {
 		log.Fatal(err)

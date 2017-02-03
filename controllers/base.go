@@ -6,22 +6,46 @@ import (
 	"github.com/astaxie/beego"
 )
 
+type params struct {
+	limit int
+	skip  int
+	sort  string
+}
+
 type BaseController struct {
 	beego.Controller
 }
 
-func (self *BaseController) limit() int {
-	limitString := self.GetString("limit")
+func (this *BaseController) parms() params {
+	sort := this.GetString("sort")
+	if sort == "hot" {
+		sort = "hot"
+	} else if sort == "update" {
+		sort = "_updated_at"
+	} else {
+		sort = "nothing"
+	}
+
+	return params{
+		limit: this.limit(),
+		skip:  this.skip(),
+		sort:  sort,
+	}
+}
+
+func (this *BaseController) limit() int {
+	limitString := this.GetString("limit")
 	limit, _ := strconv.Atoi(limitString)
 
-	if limit == 0 {
+	if limit == 0 || limit > 100 {
 		limit = 30
 	}
+
 	return limit
 }
 
-func (self *BaseController) skip() int {
-	skipString := self.GetString("skip")
+func (this *BaseController) skip() int {
+	skipString := this.GetString("skip")
 	skip, _ := strconv.Atoi(skipString)
 	return skip
 }

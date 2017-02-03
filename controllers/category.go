@@ -3,12 +3,11 @@ package controllers
 import (
 	"log"
 
-	"github.com/astaxie/beego"
 	"gopkg.in/mgo.v2/bson"
 )
 
 type CategoryController struct {
-BaseController
+	BaseController
 }
 
 func (o *CategoryController) Get() {
