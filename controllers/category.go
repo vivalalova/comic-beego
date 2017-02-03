@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"comic-go/models"
 	"log"
 
 	"github.com/astaxie/beego"
@@ -12,12 +11,8 @@ type CategoryController struct {
 	beego.Controller
 }
 
-var (
-	Catalog = models.Catalog{}.Shared()
-	results []string
-)
-
 func (o *CategoryController) Get() {
+	var results []string
 
 	err := Catalog.Find(bson.M{}).Distinct("category", &results)
 

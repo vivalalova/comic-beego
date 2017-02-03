@@ -31,7 +31,7 @@ func init() {
 	// beego.AddNamespace(beego.NewNamespace("/user", beego.NSInclude(&controllers.UserController{})))
 
 	beego.Router("/category", &controllers.CategoryController{})
-	beego.Router("/catalog", &controllers.CategoryController{})
+	beego.Router("/catalog", &controllers.CatalogController{})
 	beego.Router("/chapter", &controllers.ChapterController{})
 	beego.Router("/page", &controllers.PageController{})
 }
