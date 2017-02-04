@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"comic-go/models"
 	"strconv"
 
 	"github.com/astaxie/beego"
@@ -16,14 +17,14 @@ type BaseController struct {
 	beego.Controller
 }
 
+var (
+	Catalog = models.Catalog{}.Shared()
+)
+
 func (this *BaseController) parms() params {
 	sort := this.GetString("sort")
 
-	if sort == "hot" {
-		sort = "hot"
-	} else if sort == "title" {
-		sort = "title"
-	} else {
+	if sort == "" {
 		sort = "-_updated_at"
 	}
 

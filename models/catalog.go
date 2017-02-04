@@ -43,11 +43,3 @@ func (catalog Catalog) Shared() *mgo.Collection {
 
 	return collection
 }
-
-func (catalog *Catalog) find() error {
-	return nil
-}
-
-func (catalog *Catalog) findOne() error {
-	return nil
-}
