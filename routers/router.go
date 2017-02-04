@@ -14,22 +14,9 @@ import (
 )
 
 func init() {
-	// ns := beego.NewNamespace("/v1",
-	// 	beego.NSNamespace("/object",
-	// 		beego.NSInclude(
-	// 			&controllers.ObjectController{},
-	// 		),
-	// 	),
-	// 	beego.NSNamespace("/user",
-	// 		beego.NSInclude(
-	// 			&controllers.UserController{},
-	// 		),
-	// 	),
-	// )
 
-	// beego.AddNamespace(beego.NewNamespace("/object", beego.NSInclude(&controllers.ObjectController{})))
-	// beego.AddNamespace(beego.NewNamespace("/user", beego.NSInclude(&controllers.UserController{})))
-
+	// beego.InsertFilter("/*", beego.BeforeRouter, FilterUser)
+	// beego.AutoRouter(&controllers.CategoryController{})
 	beego.Router("/category", &controllers.CategoryController{})
 	beego.Router("/catalog", &controllers.CatalogController{})
 	beego.Router("/chapter", &controllers.ChapterController{})

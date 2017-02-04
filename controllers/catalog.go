@@ -4,8 +4,6 @@ import (
 	"comic-go/models"
 	"log"
 
-	"fmt"
-
 	"gopkg.in/mgo.v2/bson"
 )
 
@@ -41,13 +39,10 @@ func (this *CatalogController) Get() {
 		Sort(this.parms().sort).
 		All(&results)
 
-	fmt.Println(this.parms().limit)
-
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	this.Data["json"] = results
 	this.ServeJSON()
-
 }

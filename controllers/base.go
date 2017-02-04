@@ -18,12 +18,11 @@ type BaseController struct {
 
 func (this *BaseController) parms() params {
 	sort := this.GetString("sort")
+
 	if sort == "hot" {
 		sort = "hot"
-	} else if sort == "update" {
-		sort = "_updated_at"
 	} else {
-		sort = "nothing"
+		sort = "-_updated_at"
 	}
 
 	return params{
