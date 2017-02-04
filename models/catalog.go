@@ -8,7 +8,7 @@ import (
 )
 
 // Catalog collection
-type Catalog struct {
+type Chapter struct {
 	ID           bson.ObjectId `bson:"_id,omitempty" json:"_id"`
 	Identifier   string        `bson:"ID" json:"ID"`
 	Title        string        `bson:"title" json:"title"`
@@ -17,29 +17,11 @@ type Catalog struct {
 	Description  string        `bson:"description" json:"description"`
 	URL          string        `bson:"URL" json:"url"`
 	ThumbnailURL string        `bson:"thumbnailURL" json:"thumbnailURL"`
-	CreatedAt    time.Time     `bson:"_created_at" json:"createdAt"`
-	UpdatedAt    time.Time     `bson:"_updated_at" json:"updatedAt"`
+	CreatedAt    time.Time     `bson:"_created_at" json:"_created_at"`
+	UpdatedAt    time.Time     `bson:"_updated_at" json:"_updated_at"`
 }
 
-var (
-	session    *mgo.Session
-	collection *mgo.Collection
-)
-
 func (catalog Catalog) Shared() *mgo.Collection {
-
-	var err error
-	session, err = mgo.Dial("localhost")
-
-	if err != nil {
-		if err.Error() == "EOF" {
-			session.Refresh()
-		}
-		panic(err)
-	}
-
-	session.SetMode(mgo.Monotonic, true)
-	collection = session.DB("sfacg").C("catalog")
-
-	return collection
+	db()
+	return session.DB("sfacg").C("catalog")
 }

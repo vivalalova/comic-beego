@@ -12,16 +12,14 @@ type CatalogController struct {
 }
 
 func (this *CatalogController) queries() bson.M {
-	category := this.GetString("category")
-	title := this.GetString("title")
 
 	queries := bson.M{}
 
-	if len(category) > 0 {
+	if category := this.GetString("category"); len(category) > 0 {
 		queries["category"] = category
 	}
 
-	if len(title) > 0 {
+	if title := this.GetString("title"); len(title) > 0 {
 		queries["title"] = title
 	}
 

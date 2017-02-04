@@ -13,6 +13,7 @@ type params struct {
 	sort  string
 }
 
+// just for inherit
 type BaseController struct {
 	beego.Controller
 }
