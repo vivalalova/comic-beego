@@ -33,32 +33,41 @@ func (this *CatalogController) Get() {
 	id := this.Ctx.Input.Param(":id")
 
 	if id == "" {
-		var results []models.Catalog
-
-		query := this.queries()
-
-		err := Catalog.Find(query).
-			Skip(this.parms().skip).
-			Limit(this.parms().limit).
-			Sort(this.parms().sort).
-			All(&results)
-
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		this.Data["json"] = results
-		this.ServeJSON()
+		this.find()
 	} else {
-		result := models.Catalog{}
-
-		err := Catalog.Find(bson.M{"ID": id}).One(&result)
-
-		if err != nil {
-			this.CustomAbort(400, err.Error())
-		}
-
-		this.Data["json"] = result
-		this.ServeJSON()
+		this.findOne(id)
 	}
+}
+
+func (this *CatalogController) find() {
+	var results []models.Catalog
+
+	query := this.queries()
+
+	err := Catalog.Find(query).
+		Skip(this.parms().skip).
+		Limit(this.parms().limit).
+		Sort(this.parms().sort).
+		All(&results)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	this.Data["json"] = results
+	this.ServeJSON()
+}
+
+func (this *CatalogController) findOne(id string) {
+	//find One
+	result := models.Catalog{}
+
+	err := Catalog.Find(bson.M{"ID": id}).One(&result)
+
+	if err != nil {
+		this.CustomAbort(400, err.Error())
+	}
+
+	this.Data["json"] = result
+	this.ServeJSON()
 }

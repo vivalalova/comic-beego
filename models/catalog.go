@@ -7,6 +7,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
+// Catalog collection
 type Catalog struct {
 	ID           bson.ObjectId `bson:"_id,omitempty" json:"_id"`
 	Identifier   string        `bson:"ID" json:"ID"`
@@ -41,4 +42,12 @@ func (catalog Catalog) Shared() *mgo.Collection {
 	collection = session.DB("sfacg").C("catalog")
 
 	return collection
+}
+
+func (catalog *Catalog) find() error {
+	return nil
+}
+
+func (catalog *Catalog) findOne() error {
+	return nil
 }
