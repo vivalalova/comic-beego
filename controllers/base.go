@@ -21,6 +21,8 @@ func (this *BaseController) parms() params {
 
 	if sort == "hot" {
 		sort = "hot"
+	} else if sort == "title" {
+		sort = "title"
 	} else {
 		sort = "-_updated_at"
 	}

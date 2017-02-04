@@ -8,7 +8,8 @@ import (
 )
 
 type Catalog struct {
-	ID           bson.ObjectId `bson:"_id" json:"id"`
+	ID           bson.ObjectId `bson:"_id,omitempty" json:"_id"`
+	Identifier   string        `bson:"ID" json:"ID"`
 	Title        string        `bson:"title" json:"title"`
 	Author       string        `bson:"author" json:"author"`
 	Category     string        `bson:"category" json:"category"`

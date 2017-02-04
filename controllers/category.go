@@ -12,7 +12,6 @@ type CategoryController struct {
 
 func (o *CategoryController) Get() {
 	var results []string
-
 	err := Catalog.Find(bson.M{}).Distinct("category", &results)
 
 	if err != nil {

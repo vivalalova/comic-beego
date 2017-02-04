@@ -29,20 +29,36 @@ func (this *CatalogController) queries() bson.M {
 }
 
 func (this *CatalogController) Get() {
-	var results []models.Catalog
 
-	query := this.queries()
+	id := this.Ctx.Input.Param(":id")
 
-	err := Catalog.Find(query).
-		Skip(this.parms().skip).
-		Limit(this.parms().limit).
-		Sort(this.parms().sort).
-		All(&results)
+	if id == "" {
+		var results []models.Catalog
 
-	if err != nil {
-		log.Fatal(err)
+		query := this.queries()
+
+		err := Catalog.Find(query).
+			Skip(this.parms().skip).
+			Limit(this.parms().limit).
+			Sort(this.parms().sort).
+			All(&results)
+
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		this.Data["json"] = results
+		this.ServeJSON()
+	} else {
+		result := models.Catalog{}
+
+		err := Catalog.Find(bson.M{"ID": id}).One(&result)
+
+		if err != nil {
+			this.CustomAbort(400, err.Error())
+		}
+
+		this.Data["json"] = result
+		this.ServeJSON()
 	}
-
-	this.Data["json"] = results
-	this.ServeJSON()
 }

@@ -14,11 +14,8 @@ import (
 )
 
 func init() {
-
-	// beego.InsertFilter("/*", beego.BeforeRouter, FilterUser)
-	// beego.AutoRouter(&controllers.CategoryController{})
 	beego.Router("/category", &controllers.CategoryController{})
-	beego.Router("/catalog", &controllers.CatalogController{})
-	beego.Router("/chapter", &controllers.ChapterController{})
-	beego.Router("/page", &controllers.PageController{})
+	beego.Router("/catalog/?:id", &controllers.CatalogController{})
+	beego.Router("/chapter/?:id", &controllers.ChapterController{})
+	beego.Router("/page/?:id", &controllers.PageController{})
 }
