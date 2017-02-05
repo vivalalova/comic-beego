@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"comic-go/models"
-	"log"
 
 	"gopkg.in/mgo.v2/bson"
 )
@@ -11,61 +10,61 @@ type CatalogController struct {
 	BaseController
 }
 
-func (this *CatalogController) queries() bson.M {
+func (controller *CatalogController) queries() bson.M {
 
 	queries := bson.M{}
 
-	if category := this.GetString("category"); len(category) > 0 {
+	if category := controller.GetString("category"); len(category) > 0 {
 		queries["category"] = category
 	}
 
-	if title := this.GetString("title"); len(title) > 0 {
+	if title := controller.GetString("title"); len(title) > 0 {
 		queries["title"] = title
 	}
 
 	return queries
 }
 
-func (this *CatalogController) Get() {
+func (controller *CatalogController) Get() {
 
-	id := this.Ctx.Input.Param(":id")
+	id := controller.Ctx.Input.Param(":id")
 
 	if id == "" {
-		this.find()
+		controller.find()
 	} else {
-		this.findOne(id)
+		controller.findOne(id)
 	}
 }
 
-func (this *CatalogController) find() {
+func (controller *CatalogController) find() {
 	var results []models.Catalog
 
-	query := this.queries()
+	query := controller.queries()
 
 	err := Catalog.Find(query).
-		Skip(this.parms().skip).
-		Limit(this.parms().limit).
-		Sort(this.parms().sort).
+		Skip(controller.parms().skip).
+		Limit(controller.parms().limit).
+		Sort(controller.parms().sort).
 		All(&results)
 
 	if err != nil {
-		log.Fatal(err)
+		controller.Abort(err.Error())
 	}
 
-	this.Data["json"] = results
-	this.ServeJSON()
+	controller.Data["json"] = results
+	controller.ServeJSON()
 }
 
-func (this *CatalogController) findOne(id string) {
+func (controller *CatalogController) findOne(id string) {
 	//find One
 	result := models.Catalog{}
 
 	err := Catalog.Find(bson.M{"ID": id}).One(&result)
 
 	if err != nil {
-		this.CustomAbort(400, err.Error())
+		controller.Abort(err.Error())
 	}
 
-	this.Data["json"] = result
-	this.ServeJSON()
+	controller.Data["json"] = result
+	controller.ServeJSON()
 }

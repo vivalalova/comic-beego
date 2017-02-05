@@ -8,7 +8,7 @@ import (
 )
 
 // Catalog collection
-type Chapter struct {
+type Catalog struct {
 	ID           bson.ObjectId `bson:"_id,omitempty" json:"_id"`
 	Identifier   string        `bson:"ID" json:"ID"`
 	Title        string        `bson:"title" json:"title"`

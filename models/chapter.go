@@ -7,7 +7,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-type Catalog struct {
+type Chapter struct {
 	ID        bson.ObjectId `bson:"_id,omitempty" json:"_id"`
 	CatalogID string        `bson:"catalogID" json:"catalogID"`
 	Title     string        `bson:"title" json:"title"`

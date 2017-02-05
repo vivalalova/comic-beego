@@ -1,23 +1,19 @@
 package controllers
 
-import (
-	"log"
-
-	"gopkg.in/mgo.v2/bson"
-)
+import "gopkg.in/mgo.v2/bson"
 
 type CategoryController struct {
 	BaseController
 }
 
-func (o *CategoryController) Get() {
+func (controller *CategoryController) Get() {
 	var results []string
 	err := Catalog.Find(bson.M{}).Distinct("category", &results)
 
 	if err != nil {
-		log.Fatal(err)
+		controller.Abort(err.Error())
 	}
 
-	o.Data["json"] = results
-	o.ServeJSON()
+	controller.Data["json"] = results
+	controller.ServeJSON()
 }

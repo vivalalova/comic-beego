@@ -20,24 +20,25 @@ type BaseController struct {
 
 var (
 	Catalog = models.Catalog{}.Shared()
+	Chapter = models.Chapter{}.Shared()
 )
 
-func (this *BaseController) parms() params {
-	sort := this.GetString("sort")
+func (controller *BaseController) parms() params {
+	sort := controller.GetString("sort")
 
 	if sort == "" {
 		sort = "-_updated_at"
 	}
 
 	return params{
-		limit: this.limit(),
-		skip:  this.skip(),
+		limit: controller.limit(),
+		skip:  controller.skip(),
 		sort:  sort,
 	}
 }
 
-func (this *BaseController) limit() int {
-	limitString := this.GetString("limit")
+func (controller *BaseController) limit() int {
+	limitString := controller.GetString("limit")
 	limit, _ := strconv.Atoi(limitString)
 
 	if limit == 0 || limit > 100 {
@@ -47,8 +48,8 @@ func (this *BaseController) limit() int {
 	return limit
 }
 
-func (this *BaseController) skip() int {
-	skipString := this.GetString("skip")
+func (controller *BaseController) skip() int {
+	skipString := controller.GetString("skip")
 	skip, _ := strconv.Atoi(skipString)
 	return skip
 }
