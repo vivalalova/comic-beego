@@ -14,6 +14,9 @@ type Chapter struct {
 	Pages     []string  `bson:"pages" json:"pages"`
 	CreatedAt time.Time `bson:"_created_at" json:"_created_at"`
 	UpdatedAt time.Time `bson:"_updated_at" json:"_updated_at"`
+
+	// prev Chapter
+	// next Chapter
 }
 
 func (chapter Chapter) Shared() *mgo.Collection {

@@ -43,14 +43,7 @@ func (controller *ChapterController) find(catalogID string) []models.Chapter {
 	return chapters
 }
 
-//just for this api
-type chapter struct {
-	models.Chapter
-	prev models.Chapter
-	next models.Chapter
-}
-
-func (controller *ChapterController) findOne(catalogID string, id string) chapter {
+func (controller *ChapterController) findOne(catalogID string, id string) models.Chapter {
 
 	var chapters []models.Chapter
 
@@ -64,33 +57,29 @@ func (controller *ChapterController) findOne(catalogID string, id string) chapte
 		controller.Abort(err.Error())
 	}
 
-	var result chapter
-
-	fmt.Println(id)
+	var result models.Chapter
 
 	err = Chapter.Find(bson.M{"_id": id}).One(&result)
 
-	if err != nil {
-		controller.Abort(err.Error())
-	}
-
 	fmt.Println(result)
 
-	if result.ID == "" {
+	if err != nil {
+		controller.Abort(err.Error())
+	} else if result.ID == "" {
 		controller.CustomAbort(404, "not found")
 	}
 
-	for index, element := range chapters {
-		if element.ID == result.ID {
-			if index > 0 {
-				result.prev = chapters[index-1]
-			}
+	// for index, element := range chapters {
+	// 	if element.ID == result.ID {
+	// 		if index > 0 {
+	// 			result.prev = chapters[index-1]
+	// 		}
 
-			if index < len(chapters) {
-				result.next = chapters[index+1]
-			}
-		}
-	}
+	// 		if index < len(chapters) {
+	// 			result.next = chapters[index+1]
+	// 		}
+	// 	}
+	// }
 
 	return result
 }
