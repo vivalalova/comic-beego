@@ -1,6 +1,9 @@
 package models
 
-import "gopkg.in/mgo.v2"
+import (
+	"github.com/astaxie/beego"
+	"gopkg.in/mgo.v2"
+)
 
 var (
 	session    *mgo.Session
@@ -9,7 +12,7 @@ var (
 
 func db() {
 	var err error
-	session, err = mgo.Dial("localhost")
+	session, err = mgo.Dial(beego.AppConfig.String("mongo"))
 
 	if err != nil {
 		if err.Error() == "EOF" {
