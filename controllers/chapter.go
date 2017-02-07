@@ -3,8 +3,6 @@ package controllers
 import (
 	"comic-go/models"
 
-
-
 	"gopkg.in/mgo.v2/bson"
 )
 
@@ -38,12 +36,10 @@ func (controller *ChapterController) find(catalogID string) []models.Chapter {
 		controller.Abort(err.Error())
 	}
 
-
-
 	return chapters
 }
 
-func (controller *ChapterController) findOne(catalogID string, id string) models.Chapter {
+func (controller *ChapterController) findOne(catalogID string, id string) models.ChapterWithNext {
 
 	var chapters []models.Chapter
 
@@ -57,29 +53,30 @@ func (controller *ChapterController) findOne(catalogID string, id string) models
 		controller.Abort(err.Error())
 	}
 
-	var result models.Chapter
+	var chapter models.Chapter
+	var result models.ChapterWithNext
 
-	err = Chapter.Find(bson.M{"_id": id}).One(&result)
-
-
+	err = Chapter.Find(bson.M{"_id": id}).One(&chapter)
 
 	if err != nil {
 		controller.Abort(err.Error())
-	} else if result.ID == "" {
+	} else if chapter.ID == "" {
 		controller.CustomAbort(404, "not found")
+	} else {
+		result.Chapter = chapter
+
+		for index, element := range chapters {
+			if element.ID == result.ID {
+				if index > 0 {
+					result.Prev = &chapters[index-1]
+				}
+
+				if index < len(chapters) {
+					result.Next = &chapters[index+1]
+				}
+			}
+		}
 	}
-
-	// for index, element := range chapters {
-	// 	if element.ID == result.ID {
-	// 		if index > 0 {
-	// 			result.Prev = chapters[index-1]
-	// 		}
-
-	// 		if index < len(chapters) {
-	// 			result.Next = chapters[index+1]
-	// 		}
-	// 	}
-	// }
 
 	return result
 }
