@@ -1,6 +1,10 @@
 package models
 
 import (
+	"os"
+
+	"fmt"
+
 	"github.com/astaxie/beego"
 	"gopkg.in/mgo.v2"
 )
@@ -12,7 +16,14 @@ var (
 
 func db() {
 	var err error
-	session, err = mgo.Dial(beego.AppConfig.String("mongo"))
+
+	if mongo := os.Getenv("mongo"); mongo != "" {
+		session, err = mgo.Dial(mongo)
+		fmt.Println("connect to db:" + mongo)
+	} else {
+		session, err = mgo.Dial(beego.AppConfig.String("mongo"))
+		fmt.Println("connect to db:" + beego.AppConfig.String("mongo"))
+	}
 
 	if err != nil {
 		if err.Error() == "EOF" {
