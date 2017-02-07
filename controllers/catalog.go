@@ -3,6 +3,8 @@ package controllers
 import (
 	"comic-go/models"
 
+
+
 	"gopkg.in/mgo.v2/bson"
 )
 
@@ -57,13 +59,15 @@ func (controller *CatalogController) find() {
 
 func (controller *CatalogController) findOne(id string) {
 	//find One
-	result := models.Catalog{}
+	result := []models.Catalog{}
 
-	err := Catalog.Find(bson.M{"ID": id}).One(&result)
+	err := Catalog.Find(bson.M{"ID": id}).Limit(1).All(&result)
 
 	if err != nil {
 		controller.Abort(err.Error())
 	}
+
+
 
 	controller.Data["json"] = result
 	controller.ServeJSON()

@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"comic-go/models"
-	"fmt"
 
 	"gopkg.in/mgo.v2/bson"
 )
@@ -16,8 +15,6 @@ func (controller *PageController) Get() {
 	if id := controller.Ctx.Input.Param(":id"); id != "" {
 		result := models.Chapter{}
 		err := Chapter.Find(bson.M{"_id": id}).One(&result)
-
-		fmt.Println(result)
 
 		if err != nil {
 			controller.Abort(err.Error())

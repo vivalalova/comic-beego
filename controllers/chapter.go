@@ -3,7 +3,7 @@ package controllers
 import (
 	"comic-go/models"
 
-	"fmt"
+
 
 	"gopkg.in/mgo.v2/bson"
 )
@@ -38,7 +38,7 @@ func (controller *ChapterController) find(catalogID string) []models.Chapter {
 		controller.Abort(err.Error())
 	}
 
-	fmt.Println(catalogID)
+
 
 	return chapters
 }
@@ -61,7 +61,7 @@ func (controller *ChapterController) findOne(catalogID string, id string) models
 
 	err = Chapter.Find(bson.M{"_id": id}).One(&result)
 
-	fmt.Println(result)
+
 
 	if err != nil {
 		controller.Abort(err.Error())

@@ -19,6 +19,9 @@ type Catalog struct {
 	ThumbnailURL string        `bson:"thumbnailURL" json:"thumbnailURL"`
 	CreatedAt    time.Time     `bson:"_created_at" json:"_created_at"`
 	UpdatedAt    time.Time     `bson:"_updated_at" json:"_updated_at"`
+
+	Prev string `bson:"prev" json:"prev"`
+	Next string `bson:"next" json:"next"`
 }
 
 func (catalog Catalog) Shared() *mgo.Collection {
