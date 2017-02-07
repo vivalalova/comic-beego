@@ -43,7 +43,7 @@ func (controller *ChapterController) find(catalogID string) []models.Chapter {
 	return chapters
 }
 
-func (controller *ChapterController) findOne(catalogID string, id string) models.ChapterNext {
+func (controller *ChapterController) findOne(catalogID string, id string) models.Chapter {
 
 	var chapters []models.Chapter
 
@@ -57,7 +57,7 @@ func (controller *ChapterController) findOne(catalogID string, id string) models
 		controller.Abort(err.Error())
 	}
 
-	var result models.ChapterNext
+	var result models.Chapter
 
 	err = Chapter.Find(bson.M{"_id": id}).One(&result)
 
@@ -69,17 +69,17 @@ func (controller *ChapterController) findOne(catalogID string, id string) models
 		controller.CustomAbort(404, "not found")
 	}
 
-	for index, element := range chapters {
-		if element.ID == result.ID {
-			if index > 0 {
-				result.Prev = chapters[index-1]
-			}
+	// for index, element := range chapters {
+	// 	if element.ID == result.ID {
+	// 		if index > 0 {
+	// 			result.Prev = chapters[index-1]
+	// 		}
 
-			if index < len(chapters) {
-				result.Next = chapters[index+1]
-			}
-		}
-	}
+	// 		if index < len(chapters) {
+	// 			result.Next = chapters[index+1]
+	// 		}
+	// 	}
+	// }
 
 	return result
 }

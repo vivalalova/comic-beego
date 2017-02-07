@@ -16,11 +16,11 @@ type Chapter struct {
 	UpdatedAt time.Time `bson:"_updated_at" json:"_updated_at"`
 }
 
-type ChapterNext struct {
-	Chapter
-	Prev Chapter
-	Next Chapter
-}
+// type ChapterNext struct {
+// 	Chapter
+// 	Prev Chapter
+// 	Next Chapter
+// }
 
 func (chapter Chapter) Shared() *mgo.Collection {
 	db()
