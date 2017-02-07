@@ -11,6 +11,7 @@ import (
 	"comic-go/controllers"
 
 	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/plugins/cors"
 )
 
 func init() {
@@ -18,4 +19,12 @@ func init() {
 	beego.Router("/catalog/?:id", &controllers.CatalogController{})
 	beego.Router("/catalog/?:catalogID/chapter/?:id", &controllers.ChapterController{})
 	beego.Router("/catalog/?:catalogID/chapter/?:id/page/", &controllers.PageController{})
+
+	beego.InsertFilter("*", beego.BeforeRouter, cors.Allow(&cors.Options{
+		AllowOrigins:     []string{"*"},
+		AllowMethods:     []string{"GET"},
+		AllowHeaders:     []string{"Origin"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+	}))
 }
